@@ -3,12 +3,12 @@
     x:Class="Communicator_Frontend.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Communicator_Frontend"
-    Title="Communicator_Frontend">
+    xmlns:local="clr-namespace:Communicator_Frontend.Views"
+    Title="Communicator">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        Title=""
+        ContentTemplate="{DataTemplate local:ConversationView}"
         Route="MainPage" />
 
 </Shell>

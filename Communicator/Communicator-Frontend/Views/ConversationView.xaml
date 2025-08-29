@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Communicator_Frontend.Converters"
+             x:Class="Communicator_Frontend.Views.ConversationView"
+             Title=""
+             BackgroundColor="Transparent">
+    <ContentPage.Content>
+        <Grid RowDefinitions="*,Auto">
+            <!-- Message List -->
+            <CollectionView x:Name="MessagesCollection"
+                            ItemsSource="{Binding Messages}"
+                            Grid.Row="0"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="StartAndExpand"
+                            Margin="10">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="5" ColumnDefinitions="40, *"
+                              >
+                            <Image Source="{Binding SenderProfileImage}"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    Aspect="AspectFit"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Margin="5"
+                                    Grid.Column="0">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="18,18" RadiusX="18" RadiusY="18"/>
+                                </Image.Clip>
+                            </Image>
+
+                            <!-- Name + Bubble + Timestamp -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <!-- Sender name -->
+                                <HorizontalStackLayout>
+                                    <Label Text="{Binding SenderName}"
+                                            FontSize="12"
+                                            TextColor="Gray"
+                                            Margin="2,0,2,2"/>
+                                    <Label Text="{Binding Timestamp, StringFormat='{0:hh:mm tt}'}"
+                                            FontSize="12"
+                                            TextColor="Gray"
+                                            Margin="2,0,2,2"/>
+                                </HorizontalStackLayout>
+
+                                <!-- Message bubble -->
+                                <Frame HasShadow="False"
+                                        CornerRadius="10"
+                                        Padding="0"
+                                        BackgroundColor="{Binding IsIncoming, Converter={StaticResource BoolToColorConverter}}"
+                                        >
+                                    <Editor Text="{Binding Text}" 
+                                             TextColor="Black"
+                                             FontSize="14"
+                                             BackgroundColor="Transparent"
+                                             VerticalTextAlignment="Center"
+                                             IsReadOnly="True"
+                                             AutoSize="TextChanges" />      
+                                </Frame>
+
+                                <!-- Timestamp -->
+                                
+                            </VerticalStackLayout>
+                            <!-- Profile image -->
+                            
+
+                            <!-- Align messages -->
+                            <Grid.Triggers>
+                                <DataTrigger TargetType="Grid" Binding="{Binding IsIncoming}" Value="True">
+                                    <Setter Property="FlowDirection" Value="LeftToRight"/>
+                                </DataTrigger>
+                                <DataTrigger TargetType="Grid" Binding="{Binding IsIncoming}" Value="False">
+                                    <Setter Property="FlowDirection" Value="RightToLeft"/>
+                                </DataTrigger>
+                            </Grid.Triggers>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Message Input -->
+            <Grid Grid.Row="1" Padding="10" ColumnDefinitions="*,Auto">
+                <Entry Text="{Binding NewMessage}" 
+                       Placeholder="Type a message..."
+                       Grid.Column="0"
+                       Completed="Entry_Completed"/>
+                <Button Text="Send"
+                        Grid.Column="1"
+                        Command="{Binding SendMessageCommand}"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+
+</ContentPage>
